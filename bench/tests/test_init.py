@@ -107,6 +107,20 @@ class TestBenchInit(unittest.TestCase):
 		out = subprocess.check_output(["bench", "--site", site_name, "list-apps"], cwd=bench_path)
 		self.assertTrue("erpnext" in out)
 
+	def test_switch_to_branch(self):
+		site_name = "test-site-4.dev"
+
+		self.init_bench('test-bench')
+		self.new_site(site_name)
+		
+		bench_path = os.path.join(self.benches_path, "test-bench")
+		bench.app.get_app("erpnext", "https://github.com/frappe/erpnext", "develop", bench=bench_path)
+		bench.app.install_app("erpnext", bench=bench_path)
+
+		bench.app.switch_branch("master", apps=["erpnext"], bench=bench_path)
+		out = subprocess.check_output(['git', 'status'], cwd=bench_path)
+		self.assertTrue("master" in out)
+
 	def init_bench(self, bench_name, **kwargs):
 		self.benches.append(bench_name)
 		bench.utils.init(bench_name, **kwargs)
