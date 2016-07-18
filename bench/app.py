@@ -106,8 +106,7 @@ def install_app(app, bench_path='.', verbose=False):
 
 def remove_app(app, bench_path='.'):
 	if not app in get_apps():
-		print "No app named {0}".format(app)
-		sys.exit(1)
+		raise Exception("No app named {0}".format(app))
 
 	app_path = os.path.join(bench_path, 'apps', app)
 	site_path = os.path.join(bench_path, 'sites')
@@ -118,8 +117,7 @@ def remove_app(app, bench_path='.'):
 		if os.path.exists(req_file):
 			out = subprocess.check_output(["bench", "--site", site, "list-apps"], cwd=bench_path)
 			if re.search(r'\b' + app + r'\b', out):
-				print "Cannot remove, app is installed on site: {0}".format(site)
-				sys.exit(1)
+				raise Exception("Cannot remove, app is installed on site: {0}".format(site))
 
 	exec_cmd(["{0} uninstall -y {1}".format(pip, app_path)], cwd=bench_path)
 	remove_from_appstxt(app, bench_path)

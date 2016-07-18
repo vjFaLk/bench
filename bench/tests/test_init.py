@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import unittest
 import json, os, shutil, subprocess
+import time
 import bench
 import bench.utils
 import bench.app
@@ -115,6 +116,23 @@ class TestBenchInit(unittest.TestCase):
 
 		out = subprocess.check_output(["bench", "--site", site_name, "list-apps"], cwd=bench_path)
 		self.assertTrue("erpnext" in out)
+
+
+	def test_remove_app(self):
+		self.init_bench('test-bench')
+
+		bench_path = os.path.join(self.benches_path, "test-bench")
+
+		# get app
+		bench.app.get_app("https://github.com/frappe/frappe_theme", "develop", bench_path=bench_path)
+
+		self.assertTrue(os.path.exists(os.path.join(bench_path, "apps", "frappe_theme")))
+		
+		# remove it
+		bench.app.remove_app("frappe_theme", bench_path=bench_path)
+
+		self.assertFalse(os.path.exists(os.path.join(bench_path, "apps", "frappe_theme")))
+
 
 	def test_switch_to_branch(self):
 		self.init_bench('test-bench')
