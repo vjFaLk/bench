@@ -55,6 +55,7 @@ def add_domain(site, domain, ssl_certificate, ssl_certificate_key, bench_path='.
 
 	domains.append(domain)
 	update_site_config(site, { "domains": domains }, bench_path=bench_path)
+	make_nginx_conf(bench_path, yes=True)
 
 def remove_domain(site, domain, bench_path='.'):
 	domains = get_domains(site, bench_path)
