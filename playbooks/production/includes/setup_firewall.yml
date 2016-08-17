@@ -1,0 +1,35 @@
+- name: Setup SELinux and Firewall
+  hosts: localhost
+  user: root
+  gather_facts: false
+  vars:
+    - ssh_port: 2332
+
+  tasks:
+    - name: Enable SELinux
+      selinux: policy=targeted state=permissive
+
+    - name: Install firewalld for CentOS
+      yum: name=firewalld state=present
+      when: ansible_distribution == 'CentOS'
+
+    - name: Install firewalld for Ubuntu / Debian
+      apt: name=firewalld state=present
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Enable Firewall
+      service: name=firewalld state=started enabled=yes
+
+    - name: Add firewall rules
+      firewalld: port={{ item }}/tcp permanent=true state=enabled
+      with_items:
+        - 80
+        - 443
+        - '{{ ssh_port }}'
+      tags:
+        - firewall
+
+    - name: Enable Firewall
+      service: name=firewalld state=restarted enabled=yes
+
+    - pause: seconds=5

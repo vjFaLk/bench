@@ -17,11 +17,11 @@
        - selinux-policy-dev
       become: yes
       become_user: root
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
     - name: Check enabled SELinux modules
-     shell: semanage module -l
-     register: enabled_modules
+      shell: semanage module -l
+      register: enabled_modules
 
     - name: Copy frappe_selinux policy
       copy: src=templates/frappe_selinux.te dest=/root/frappe_selinux.te

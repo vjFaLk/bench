@@ -287,7 +287,10 @@ def run_playbook(playbook_name, sudo=False, extra_vars=None):
 	if os.path.exists(tmp_bench_repo):
 		cwd = tmp_bench_repo
 	else:
-		cwd = os.path.join(os.path.expanduser('~'), 'bench')
+		cwd = os.path.join(os.path.expanduser('~'), '.bench')
+		if not os.path.exists(cwd):
+			#for backwards compatibility
+			cwd = os.path.join(os.path.expanduser('~'), 'bench-repo')
 
 	success = subprocess.check_call(args, cwd=os.path.join(cwd, 'playbooks'))
 	return success

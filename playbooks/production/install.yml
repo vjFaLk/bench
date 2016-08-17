@@ -11,5 +11,5 @@
   - include: includes/setup_bench_production.yml
     when: not run_travis
 
-  # Setup SELinux Policy, Optional can be done later
-  # - include: includes/setup_selinux_policy.yml
+  # Setup SELinux and Firewall
+  - include: includes/setup_firewall.yml

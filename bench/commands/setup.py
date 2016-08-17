@@ -104,6 +104,11 @@ def setup_config():
 	from bench.config.common_site_config import make_config
 	make_config('.')
 
+@click.command('firewall')
+def setup_firewall():
+	"setup selinux and firewalld"
+	from playbooks.install import run_playbook
+	run_playbook('production/includes/setup_firewall.yml')
 
 @click.command('add-domain')
 @click.argument('domain')
@@ -170,3 +175,4 @@ setup.add_command(setup_fonts)
 setup.add_command(add_domain)
 setup.add_command(remove_domain)
 setup.add_command(sync_domains)
+setup.add_command(setup_firewall)
