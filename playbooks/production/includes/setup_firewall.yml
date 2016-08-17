@@ -1,13 +1,13 @@
 - name: Setup SELinux and Firewall
   hosts: localhost
   user: root
-  gather_facts: false
   vars:
     - ssh_port: 2332
 
   tasks:
     - name: Enable SELinux
       selinux: policy=targeted state=permissive
+      ignore_errors: yes
 
     - name: Install firewalld for CentOS
       yum: name=firewalld state=present

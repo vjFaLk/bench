@@ -80,7 +80,3 @@
   # setup development environment
   - include: includes/setup_dev_env.yml
     when: not run_travis and not production
-
-  # setup selinux
-  - include: includes/setup_selinux_policy.yml
-    when: not production and not run_travis and not without_bench_setup

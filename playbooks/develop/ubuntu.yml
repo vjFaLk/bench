@@ -98,7 +98,3 @@
   # setup development environment
   - include: includes/setup_dev_env.yml
     when: not production and not run_travis and not without_bench_setup
-
-  # setup selinux
-  - include: includes/setup_selinux_policy.yml
-    when: not production and not run_travis and not without_bench_setup

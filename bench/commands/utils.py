@@ -1,5 +1,5 @@
 import click
-import sys, os, copy
+import sys, os, copy, json
 
 
 @click.command('start')
@@ -143,3 +143,14 @@ def bench_src():
 	"""Prints bench source folder path, which can be used as: cd `bench src` """
 	import bench
 	print os.path.dirname(bench.__path__[0])
+
+
+@click.command('run-setup')
+@click.argument('path')
+@click.option('--extra-vars')
+def run_setup(path, extra_vars):
+	"""Runs specific playbook for reinstall"""
+	from playbooks.install import run_playbook
+	if extra_vars:
+		extra_vars = json.loads(extra_vars)
+	run_playbook(path, extra_vars)

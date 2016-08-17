@@ -32,7 +32,7 @@
     - name: Compile frappe_selinux policy
       shell: "make -f /usr/share/selinux/devel/Makefile frappe_selinux.pp && semodule -i frappe_selinux.pp"
       args:
-      chdir: /root/
+        chdir: /root/
       become: yes
       become_user: root
       when: "enabled_modules.stdout.find('frappe_selinux') == -1 or dest_frappe_selinux_te.changed"
