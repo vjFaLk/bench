@@ -77,9 +77,7 @@ def bump(bench_path, app, bump_type, from_branch, to_branch, remote, owner, dry_
 		print('No commits to release')
 		return
 
-	print()
 	print(message)
-	print()
 
 	if dry_run:
 		return
@@ -106,7 +104,6 @@ def update_branches_and_check_for_changelog(repo_path, from_branch='develop', to
 	check_for_unmerged_changelog(repo_path)
 
 def update_branch(repo_path, branch, remote):
-	print("updating local branch of", repo_path, 'using', remote + '/' + branch)
 
 	repo = git.Repo(repo_path)
 	g = repo.git
@@ -120,8 +117,6 @@ def check_for_unmerged_changelog(repo_path):
 		raise Exception("Unmerged change log! in " + repo_path)
 
 def get_release_message(repo_path, from_branch='develop', to_branch='master', remote='upstream'):
-	print('getting release message for', repo_path, 'comparing', to_branch, '...', from_branch)
-
 	repo = git.Repo(repo_path)
 	g = repo.git
 	log = g.log('{remote}/{to_branch}..{remote}/{from_branch}'.format(
