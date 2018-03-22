@@ -24,7 +24,7 @@ github_password = None
 def release(bench_path, app, bump_type, from_branch='develop', to_branch='master',
 		remote='upstream', owner='frappe', repo_name=None, dry_run=False, yes=False):
 
-	if not yes or not dry_run:
+	if not yes:
 		confirm_testing()
 
 	config = get_config(bench_path)
